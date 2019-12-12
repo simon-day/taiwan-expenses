@@ -1,38 +1,146 @@
-.App {
+.logo {
+  font-family: 'Bebas Neue', cursive;
+}
+
+* {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.container {
+  text-align: center;
+  margin: 40px;
+}
+
+.dropdown-menu {
+  margin-top: 10px;
+}
+
+.expenses-table {
+  margin-top: 10px;
+}
+
+.input-form {
+  margin-top: 10px;
+  margin-bottom: 10px !important;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.input-field {
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+.sort-by-label {
+  margin-top: 0px;
+  text-align: left;
+}
+
+.table-container {
+  width: 80%;
+  margin: 0 auto;
+  font-family: 'Titillium Web', sans-serif;
+  /* font-family: 'Indie Flower', cursive; */
+  font-size: 1.5rem;
+  /* font-family: 'Shadows Into Light', cursive; */
+  /* font-family: 'Poppins', sans-serif; */
+}
+
+.sticky2 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 15%;
+  background-color: white;
+}
+
+.sort-by-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.react-datepicker {
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+.react-datepicker-wrapper {
+  z-index: -3 !important;
+}
+
+.nav {
+  background-color: #2bbbad !important;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  /* background-color: white; */
+}
+
+.react-datepicker-popper {
+  z-index: 6 !important;
+}
+
+.react-datepicker__header,
+.react-datepicker__current-month,
+.react-datepicker__day-names,
+.react-datepicker__day-name {
+  background-color: #2bbbad;
+  color: white !important;
+}
+
+.react-datepicker__portal .react-datepicker__current-month,
+.react-datepicker__portal .react-datepicker-time__header {
+  padding-top: 10px;
+}
+
+.react-datepicker__month-container {
+  padding-top: 10px;
+}
+
+.react-datepicker__portal .react-datepicker__navigation--previous,
+.react-datepicker__portal .react-datepicker__navigation--next {
+  margin-top: 20px;
+}
+
+.react-datepicker__input-container {
+  color: white !important;
+}
+
+input {
+  color: white !important;
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+.total-table-container {
+  padding: 0 30px;
+  margin: 0 auto;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bold-text {
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.date-pickers {
+  margin-top: 10px;
+  display: block;
+}
+.to-span {
+  margin-right: 50px;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.sidenav-trigger {
+  display: none;
 }
 
-.App-link {
-  color: #61dafb;
+.total-average {
+  /* width: 70%; */
+  text-align: right;
+  font-size: 1.1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.edit-btn {
+  margin: 5px;
 }

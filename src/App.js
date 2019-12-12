@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import 'materialize-css/dist/css/materialize.min.css';
+import ExpenseDasboard from './components/ExpenseDashboard';
+import { ExpenseProvider } from './context/ExpenseContext';
+import { Navbar } from 'react-materialize';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar
+        className="nav"
+        brand={
+          <span className=" logo">
+            Taiwan Expenses<i className="material-icons">dashboard</i>
+          </span>
+        }
+        centerLogo
+      ></Navbar>
+      <div className="container">
+        <ExpenseProvider>
+          <ExpenseDasboard />
+        </ExpenseProvider>
+      </div>
+    </>
   );
 }
 

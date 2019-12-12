@@ -6,6 +6,10 @@
   font-family: 'Titillium Web', sans-serif;
 }
 
+table {
+  table-layout: fixed;
+}
+
 .container {
   text-align: center;
   margin: 40px;
@@ -17,6 +21,7 @@
 
 .expenses-table {
   margin-top: 10px;
+  font-size: 1rem;
 }
 
 .input-form {
@@ -35,7 +40,7 @@
 }
 
 .table-container {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   font-family: 'Titillium Web', sans-serif;
   /* font-family: 'Indie Flower', cursive; */
@@ -52,7 +57,7 @@
 }
 
 .sort-by-container {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 

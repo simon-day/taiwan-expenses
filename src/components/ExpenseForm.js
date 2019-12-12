@@ -95,7 +95,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
                   color: 'white',
                   fontWeight: 'bold',
                   fontFamily: 'Titillium Web, sans-serif',
-                  fontSize: '1.6rem'
+                  fontSize: '1rem'
                 }}
                 required
                 autoComplete="off"
@@ -112,7 +112,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
                   color: 'white',
                   fontWeight: 'bold',
                   fontFamily: 'Titillium Web, sans-serif',
-                  fontSize: '1.6rem'
+                  fontSize: '1rem'
                 }}
                 required
                 autoComplete="off"

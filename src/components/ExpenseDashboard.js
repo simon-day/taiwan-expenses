@@ -132,7 +132,7 @@ const ExpenseDashboard = () => {
           </div>
         </div>
         <div className="table-container">
-          <Table className="centered expenses-table highlight">
+          <Table className="centered expenses-table highlight ">
             <thead>
               <tr>
                 <th data-field="expense">Expense</th>

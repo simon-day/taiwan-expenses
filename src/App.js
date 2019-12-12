@@ -10,11 +10,7 @@ function App() {
     <>
       <Navbar
         className="nav"
-        brand={
-          <span className=" logo">
-            Taiwan Expenses<i className="material-icons">dashboard</i>
-          </span>
-        }
+        brand={<span className=" logo">Taiwan Expenses</span>}
         centerLogo
       ></Navbar>
       <div className="container">

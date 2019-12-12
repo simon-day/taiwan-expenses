@@ -16,7 +16,7 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
         <td>
           {moment(createdAt).isSame(moment(), 'day')
             ? moment(createdAt).fromNow()
-            : moment(createdAt).format('DD/MM/YYYY - hA')}
+            : moment(createdAt).format('DD/MM/YY - hA')}
         </td>
         <td>
           {' '}

@@ -1,6 +1,4 @@
-body {
-  color: white;
-
+html {
   background: #2c3e50; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -12,7 +10,12 @@ body {
     #4ca1af,
     #2c3e50
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
+body {
+  width: 100%;
+  height: 100%;
+  color: white;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

@@ -15,7 +15,7 @@ const ExpenseDashboard = () => {
   const { expenses, filteredExpenses } = state;
 
   const [showDatePicker, toggleShowDatePicker] = useState(false);
-  const [focus, setFocus] = useState(true);
+  const [focus, setFocus] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [sortBy, setSortBy] = useState('NEWEST');

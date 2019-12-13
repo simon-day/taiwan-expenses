@@ -6,17 +6,35 @@ import { useEffect } from 'react';
 const KEY_ESCAPE = 27;
 
 const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
-  let textInput = React.createRef();
+  let descriptionInput = null;
+  let amountInput = null;
+
+  const setDescriptionInputRef = el => {
+    descriptionInput = el;
+  };
+
+  const setAmountInputRef = el => {
+    amountInput = el;
+  };
+
+  useEffect(() => {
+    const focusTextInput = () => {
+      if (descriptionInput && focus) {
+        descriptionInput.focus();
+      } else {
+        descriptionInput.blur();
+        amountInput.blur();
+      }
+    };
+    focusTextInput();
+  }, [descriptionInput, amountInput, focus]);
+
   const { state, dispatch } = useContext(ExpensesContext);
-
   const { currentExpense } = state;
-
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    setFocus(true);
-    textInput.current.focus();
     setAmount(currentExpense.amount || '');
     setDescription(currentExpense.description || '');
   }, [currentExpense]);
@@ -28,10 +46,6 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       setAmount(price);
     }
   };
-
-  useEffect(() => {
-    textInput.current.blur();
-  }, [focus]);
 
   const handleDescriptionChange = e => {
     setDescription(e.target.value);
@@ -48,6 +62,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       });
       dispatch({ type: 'RESET_CURRENT_EXPENSE' });
       setAmount('');
+
       setFocus(false);
       setDescription('');
     }
@@ -59,7 +74,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       setAmount('');
       setDescription('');
       dispatch({ type: 'RESET_CURRENT_EXPENSE' });
-      textInput.current.blur();
+      setFocus(false);
     }
   };
 
@@ -75,6 +90,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       setDescription('');
     }
     setSortBy('NEWEST');
+    setFocus(false);
     e.preventDefault();
   };
   return (
@@ -89,8 +105,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
               <i className="material-icons prefix">shopping_basket</i>
               <input
                 onKeyDown={handleKeyDown}
-                autoFocus={focus}
-                ref={textInput}
+                ref={setDescriptionInputRef}
                 style={{
                   color: 'white',
                   fontWeight: 'bold',
@@ -114,6 +129,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
                   fontFamily: 'Titillium Web, sans-serif',
                   fontSize: '1rem'
                 }}
+                ref={setAmountInputRef}
                 required
                 autoComplete="off"
                 type="text"
@@ -123,9 +139,13 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
               />
             </div>
             {!currentExpense ? (
-              <Button small>Add</Button>
+              <Button className="add-edit-btn" small>
+                Add
+              </Button>
             ) : (
-              <Button small>Edit</Button>
+              <Button className="add-edit-btn" small>
+                Edit
+              </Button>
             )}
           </div>
         </form>

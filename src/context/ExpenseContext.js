@@ -2,6 +2,9 @@ import React, { createContext, useReducer } from 'react';
 import ExpenseReducer from '../reducers/ExpenseReducer';
 import moment from 'moment';
 import { useEffect } from 'react';
+import firebase from '../Firestore';
+
+const auth = firebase.auth();
 
 export const ExpensesContext = createContext();
 
@@ -80,6 +83,13 @@ export const ExpenseProvider = props => {
     ExpenseReducer,
     JSON.parse(localStorage.getItem('state')) || initialState
   );
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      return console.log('User Logged in: ', user);
+    }
+    console.log('User Logged Out');
+  });
 
   useEffect(() => {
     initialState.filteredExpenses = [...initialState.expenses];

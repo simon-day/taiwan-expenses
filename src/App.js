@@ -5,28 +5,18 @@ import 'materialize-css/dist/css/materialize.min.css';
 import ExpenseDasboard from './components/ExpenseDashboard';
 import LoginPage from './components/LoginPage';
 import { ExpenseProvider } from './context/ExpenseContext';
-import { Navbar } from 'react-materialize';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <>
-      <Navbar
-        className="nav"
-        brand={<span className=" logo">Taiwan Expenses</span>}
-        centerLogo
-      ></Navbar>
       <Router>
+        <NavBar />
         <Switch>
-          <Route exact path="/">
-            <LoginPage />
-          </Route>
-          <Route path="/expenses">
-            <div className="container">
-              <ExpenseProvider>
-                <ExpenseDasboard />
-              </ExpenseProvider>
-            </div>
-          </Route>
+          <ExpenseProvider>
+            <Route exact path="/" component={LoginPage} />
+            <Route path="/expenses" component={ExpenseDasboard} />
+          </ExpenseProvider>
         </Switch>
       </Router>
     </>

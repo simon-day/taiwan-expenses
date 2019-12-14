@@ -1,5 +1,20 @@
-.logo {
+.brand-logo {
   font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  margin-left: 2rem;
+}
+
+.landing-page-container {
+  width: 60%;
+  background-color: white;
+  color: black !important;
+  padding: 10px 30px;
+  text-align: center;
+  margin: 3rem auto;
+}
+
+.landing-page-text {
+  color: black;
 }
 
 * {
@@ -17,6 +32,11 @@ table {
 
 .dropdown-menu {
   margin-top: 10px;
+}
+
+.btn-sign-up {
+  margin-left: 10px !important;
+  background: maroon !important;
 }
 
 .expenses-table {
@@ -116,7 +136,7 @@ table {
   color: white !important;
 }
 
-input {
+input.expense-input {
   color: white !important;
   font-family: 'Titillium Web', sans-serif !important;
 }
@@ -138,10 +158,6 @@ input {
 .to-span {
   margin-right: 50px;
   text-align: center;
-}
-
-.sidenav-trigger {
-  display: none;
 }
 
 .total-average {

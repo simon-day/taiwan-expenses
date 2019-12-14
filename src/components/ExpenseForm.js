@@ -51,6 +51,12 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
     setDescription(e.target.value);
   };
 
+  //     Math.sum(splitN)
+  //     let result = 0
+  //     for (let i=0; i < splitN.length; i++) {
+
+  //     }
+
   const editExpense = e => {
     if (description.trim().length > 0) {
       e.preventDefault();
@@ -104,6 +110,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
             <div className="input-field col s6">
               <i className="material-icons prefix">shopping_basket</i>
               <input
+                className="expense-input"
                 onKeyDown={handleKeyDown}
                 ref={setDescriptionInputRef}
                 style={{
@@ -123,6 +130,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
             <div className="input-field col s6">
               <i className="material-icons prefix">attach_money</i>
               <input
+                className="expense-input"
                 style={{
                   color: 'white',
                   fontWeight: 'bold',

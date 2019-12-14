@@ -76,73 +76,75 @@ const ExpenseDashboard = () => {
 
   return (
     <>
-      <div className="center-align">
-        <div className="expense-form">
-          <ExpenseForm
-            focus={focus}
-            setFocus={setFocus}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-            handSortByOnChange={handSortByOnChange}
-            setSortBy={setSortBy}
-          />
-        </div>
-        <div className="sort-by-container">
-          <div className="row">
-            <SortBySelect
-              sortBy={sortBy}
+      <div className="container">
+        <div className="center-align">
+          <div className="expense-form">
+            <ExpenseForm
+              focus={focus}
+              setFocus={setFocus}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
               handSortByOnChange={handSortByOnChange}
+              setSortBy={setSortBy}
             />
-            <div className="col s6 ">
-              <div className="row date-pickers">
-                <DateRangeSelect
-                  toggleShowDatePicker={toggleShowDatePicker}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                  sortBy={sortBy}
-                />
-                {showDatePicker && (
-                  <DateRangePickers
+          </div>
+          <div className="sort-by-container">
+            <div className="row">
+              <SortBySelect
+                sortBy={sortBy}
+                handSortByOnChange={handSortByOnChange}
+              />
+              <div className="col s6 ">
+                <div className="row date-pickers">
+                  <DateRangeSelect
+                    toggleShowDatePicker={toggleShowDatePicker}
                     startDate={startDate}
                     setStartDate={setStartDate}
                     endDate={endDate}
                     setEndDate={setEndDate}
+                    sortBy={sortBy}
                   />
-                )}
+                  {showDatePicker && (
+                    <DateRangePickers
+                      startDate={startDate}
+                      setStartDate={setStartDate}
+                      endDate={endDate}
+                      setEndDate={setEndDate}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="row total-average">
-              <div className="col s6"></div>
-              <div className="col s6">
-                Total:{' '}
-                <span className="bold-text">
-                  ${renderTotalSpend().toLocaleString()}
-                </span>{' '}
-                / Daily Average:{' '}
-                <span className="bold-text">
-                  $
-                  {!expenses.length > 0
-                    ? '0'
-                    : calculateAverageDailySpend().toLocaleString()}
-                </span>
+              <div className="row total-average">
+                <div className="col s6"></div>
+                <div className="col s6">
+                  Total:{' '}
+                  <span className="bold-text">
+                    ${renderTotalSpend().toLocaleString()}
+                  </span>{' '}
+                  / Daily Average:{' '}
+                  <span className="bold-text">
+                    $
+                    {!expenses.length > 0
+                      ? '0'
+                      : calculateAverageDailySpend().toLocaleString()}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="table-container">
-          <Table className="centered expenses-table highlight ">
-            <thead>
-              <tr>
-                <th data-field="expense">Expense</th>
-                <th data-field="amount">Amount</th>
-                <th data-field="createdAt">Time Added</th>
-                <th data-field="price"></th>
-              </tr>
-            </thead>
-            <tbody>{renderExpenseList()}</tbody>
-          </Table>
+          <div className="table-container">
+            <Table className="centered expenses-table highlight ">
+              <thead>
+                <tr>
+                  <th data-field="expense">Expense</th>
+                  <th data-field="amount">Amount</th>
+                  <th data-field="createdAt">Time Added</th>
+                  <th data-field="price"></th>
+                </tr>
+              </thead>
+              <tbody>{renderExpenseList()}</tbody>
+            </Table>
+          </div>
         </div>
       </div>
     </>

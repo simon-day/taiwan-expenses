@@ -1,21 +1,36 @@
 import uuid from 'uuid';
 import moment from 'moment';
+import firebase from '../Firestore';
+
+const db = firebase.firestore();
 
 export default (state, action) => {
   switch (action.type) {
-    case 'ADD_EXPENSE':
-      const time = moment();
+    case 'FETCH_EXPENSES':
       return {
         ...state,
-        expenses: [
-          {
-            id: uuid(),
-            description: action.description,
-            amount: action.amount,
-            createdAt: time.format('YYYY-MM-DD HH:mm:ssZ')
-          },
-          ...state.expenses
-        ]
+        expenses: action.expenses,
+        filteredExpenses: action.expenses
+      };
+    case 'ADD_EXPENSE':
+      const time = moment();
+      const expense = {
+        id: uuid(),
+        userId: action.userId,
+        description: action.description,
+        amount: action.amount,
+        createdAt: time.format('YYYY-MM-DD HH:mm:ssZ')
+      };
+
+      const addExpense = async () => {
+        await db.collection('expenses').add(expense);
+      };
+
+      addExpense();
+
+      return {
+        ...state,
+        expenses: [expense, ...state.expenses]
       };
     case 'REMOVE_EXPENSE':
       return {

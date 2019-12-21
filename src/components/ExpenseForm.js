@@ -2,6 +2,11 @@ import React, { useState, useContext } from 'react';
 import { ExpensesContext } from '../context/ExpenseContext';
 import { Button } from 'react-materialize';
 import { useEffect } from 'react';
+import moment from 'moment';
+import uuid from 'uuid';
+import firebase from '../Firestore';
+
+const db = firebase.firestore();
 
 const KEY_ESCAPE = 27;
 
@@ -29,7 +34,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
     focusTextInput();
   }, [descriptionInput, amountInput, focus]);
 
-  const { state, dispatch } = useContext(ExpensesContext);
+  const { state } = useContext(ExpensesContext);
   const { currentExpense } = state;
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
@@ -51,26 +56,12 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
     setDescription(e.target.value);
   };
 
-  //     Math.sum(splitN)
-  //     let result = 0
-  //     for (let i=0; i < splitN.length; i++) {
-
-  //     }
-
   const editExpense = e => {
     if (description.trim().length > 0) {
       e.preventDefault();
-      dispatch({
-        type: 'EDIT_EXPENSE',
-        id: currentExpense.id,
-        amount: Number(amount),
-        description: description.trim()
-      });
-      dispatch({ type: 'RESET_CURRENT_EXPENSE' });
       setAmount('');
-
-      setFocus(false);
       setDescription('');
+      setFocus(false);
     }
     e.preventDefault();
   };
@@ -79,19 +70,24 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
     if (event.keyCode === KEY_ESCAPE) {
       setAmount('');
       setDescription('');
-      dispatch({ type: 'RESET_CURRENT_EXPENSE' });
       setFocus(false);
     }
   };
 
-  const addExpense = e => {
+  const addExpense = async e => {
     if (description.trim().length > 0) {
       e.preventDefault();
-      dispatch({
-        type: 'ADD_EXPENSE',
+
+      const expense = {
+        id: uuid(),
+        userId: state.userId,
+        description,
         amount: Number(amount),
-        description: description.trim()
-      });
+        createdAt: moment().format('YYYY-MM-DD HH:mm:ssZ')
+      };
+
+      await db.collection('expenses').add(expense);
+
       setAmount('');
       setDescription('');
     }

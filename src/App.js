@@ -4,7 +4,6 @@ import './App.css';
 import 'materialize-css/dist/css/materialize.min.css';
 import ExpenseDasboard from './components/ExpenseDashboard';
 import LoginPage from './components/LoginPage';
-import { ExpenseProvider } from './context/ExpenseContext';
 import NavBar from './components/NavBar';
 
 function App() {
@@ -13,10 +12,8 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-          <ExpenseProvider>
-            <Route exact path="/" component={LoginPage} />
-            <Route path="/expenses" component={ExpenseDasboard} />
-          </ExpenseProvider>
+          <Route exact path="/expenses" component={ExpenseDasboard} />
+          <Route exact path="/" component={LoginPage} />
         </Switch>
       </Router>
     </>

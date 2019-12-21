@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import firebase from '../Firestore';
+import { useHistory } from 'react-router-dom';
 import { TextInput, Button } from 'react-materialize';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { useEffect } from 'react';
@@ -8,6 +9,8 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
 const LoginPage = () => {
+  let history = useHistory();
+
   useEffect(() => {
     var elems = document.querySelectorAll('.modal');
     M.Modal.init(elems);
@@ -27,9 +30,11 @@ const LoginPage = () => {
     const cred = await auth.createUserWithEmailAndPassword(email, password);
 
     //Clear form and close modal
+
     closeModal('#sign-up-modal');
     setEmail('');
     setPassword('');
+    history.push('/expenses');
   };
 
   const handleLogInSubmit = async e => {
@@ -39,6 +44,7 @@ const LoginPage = () => {
     closeModal('#log-in-modal');
     setEmail('');
     setPassword('');
+    history.push('/expenses');
   };
 
   return (

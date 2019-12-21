@@ -11,8 +11,9 @@ import DateRangeSelect from './DateRangeSelect';
 import SortBySelect from './SortBySelect';
 
 const ExpenseDashboard = () => {
-  const { state, dispatch } = useContext(ExpensesContext);
-  const { expenses, filteredExpenses } = state;
+  const { state, setState } = useContext(ExpensesContext);
+  console.log('STATE: ', state);
+  const { expenses } = state;
 
   const [showDatePicker, toggleShowDatePicker] = useState(false);
   const [focus, setFocus] = useState(false);
@@ -31,7 +32,7 @@ const ExpenseDashboard = () => {
   );
 
   const renderExpenseList = () => {
-    return filteredExpenses.map(expense => (
+    return state.expenses.map(expense => (
       <ExpenseItem
         setFocus={setFocus}
         key={expense.id}
@@ -43,10 +44,10 @@ const ExpenseDashboard = () => {
   };
 
   const renderTotalSpend = () => {
-    if (filteredExpenses) {
-      return filteredExpenses.reduce((total, exp) => total + exp.amount, 0);
-    }
-    return expenses.reduce((total, exp) => total + exp.amount, 0);
+    // if (filteredExpenses) {
+    //   return filteredExpenses.reduce((total, exp) => total + exp.amount, 0);
+    // }
+    return state.expenses.reduce((total, exp) => total + Number(exp.amount), 0);
   };
 
   const calculateAverageDailySpend = () => {
@@ -55,24 +56,28 @@ const ExpenseDashboard = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('state', JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem('sortBy', JSON.stringify(state.sortBy));
+    localStorage.setItem(
+      'currentExpense',
+      JSON.stringify(state.currentExpense)
+    );
+  }, [state.sortBy, state.currentExpense]);
 
-  useEffect(() => {
-    dispatch({
-      type: 'FILTER_BY_DATE',
-      startDate: moment(startDate).toDate(),
-      endDate: moment(endDate).toDate()
-    });
-  }, [startDate, expenses, endDate, dispatch]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'FILTER_BY_DATE',
+  //     startDate: moment(startDate).toDate(),
+  //     endDate: moment(endDate).toDate()
+  //   });
+  // }, [startDate, expenses, endDate, dispatch]);
 
   const handSortByOnChange = e => {
     setSortBy(e.target.value);
   };
 
-  useEffect(() => {
-    dispatch({ type: `SORT_BY_${sortBy}` });
-  }, [sortBy, dispatch]);
+  // useEffect(() => {
+  //   dispatch({ type: `SORT_BY_${sortBy}` });
+  // }, [sortBy, dispatch]);
 
   return (
     <>
@@ -90,10 +95,7 @@ const ExpenseDashboard = () => {
           </div>
           <div className="sort-by-container">
             <div className="row">
-              <SortBySelect
-                sortBy={sortBy}
-                handSortByOnChange={handSortByOnChange}
-              />
+              <SortBySelect setSortBy={setSortBy} sortBy={sortBy} />
               <div className="col s6 ">
                 <div className="row date-pickers">
                   <DateRangeSelect
@@ -119,7 +121,9 @@ const ExpenseDashboard = () => {
                 <div className="col s6">
                   Total:{' '}
                   <span className="bold-text">
-                    ${renderTotalSpend().toLocaleString()}
+                    $
+                    {state.expenses.length > 0 &&
+                      renderTotalSpend().toLocaleString()}
                   </span>{' '}
                   / Daily Average:{' '}
                   <span className="bold-text">

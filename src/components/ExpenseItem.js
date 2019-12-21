@@ -3,9 +3,31 @@ import { ExpensesContext } from '../context/ExpenseContext';
 import { useContext } from 'react';
 import moment from 'moment';
 import { Button } from 'react-materialize';
+import firebase from '../Firestore';
+
+const db = firebase.firestore();
 
 const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
   const { dispatch } = useContext(ExpensesContext);
+
+  const deleteExpense = () => {
+    let expensesRef = db.collection('expenses');
+    let query = expensesRef
+      .where('id', '==', id)
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          console.log(doc.id, '=>', doc.data());
+          let deleteDoc = db
+            .collection('expenses')
+            .doc(doc.id)
+            .delete();
+        });
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
+  };
 
   return (
     <>
@@ -33,11 +55,7 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
           >
             <i className="material-icons">edit</i>
           </Button>
-          <Button
-            className="delete-btn"
-            small
-            onClick={() => dispatch({ type: 'REMOVE_EXPENSE', id })}
-          >
+          <Button className="delete-btn" small onClick={deleteExpense}>
             <i className="material-icons">delete</i>
           </Button>
         </td>

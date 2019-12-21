@@ -8,7 +8,7 @@ import firebase from '../Firestore';
 const db = firebase.firestore();
 
 const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
-  const { dispatch } = useContext(ExpensesContext);
+  const { state, setState } = useContext(ExpensesContext);
 
   const deleteExpense = () => {
     let expensesRef = db.collection('expenses');
@@ -34,7 +34,6 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
       <tr>
         <td>{description}</td>
         <td>${Number(amount).toLocaleString()}</td>
-        {/* <td>{moment(createdAt).fromNow()}</td> */}
         <td>
           {moment(createdAt).isSame(moment(), 'day')
             ? moment(createdAt).fromNow()
@@ -48,9 +47,12 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
             onClick={() => {
               window.scrollTo(0, 0);
               setFocus(true);
-              dispatch({ type: 'SET_CURRENT_EXPENSE', id });
-              // setCurrentExpense(expenses.find(expense => expense.id === id));
-              // setIsEditing(true);
+              setState({
+                ...state,
+                currentExpense: state.expenses.find(
+                  expense => expense.id === id
+                )
+              });
             }}
           >
             <i className="material-icons">edit</i>

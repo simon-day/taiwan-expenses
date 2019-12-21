@@ -11,7 +11,7 @@ import DateRangeSelect from './DateRangeSelect';
 import SortBySelect from './SortBySelect';
 
 const ExpenseDashboard = () => {
-  const { state, setState } = useContext(ExpensesContext);
+  const { state } = useContext(ExpensesContext);
   console.log('STATE: ', state);
   const { expenses } = state;
 
@@ -44,9 +44,6 @@ const ExpenseDashboard = () => {
   };
 
   const renderTotalSpend = () => {
-    // if (filteredExpenses) {
-    //   return filteredExpenses.reduce((total, exp) => total + exp.amount, 0);
-    // }
     return state.expenses.reduce((total, exp) => total + Number(exp.amount), 0);
   };
 
@@ -55,21 +52,13 @@ const ExpenseDashboard = () => {
     return Math.ceil(renderTotalSpend() / noOfDays);
   };
 
-  useEffect(() => {
-    localStorage.setItem('sortBy', JSON.stringify(state.sortBy));
-    localStorage.setItem(
-      'currentExpense',
-      JSON.stringify(state.currentExpense)
-    );
-  }, [state.sortBy, state.currentExpense]);
-
   // useEffect(() => {
-  //   dispatch({
-  //     type: 'FILTER_BY_DATE',
-  //     startDate: moment(startDate).toDate(),
-  //     endDate: moment(endDate).toDate()
-  //   });
-  // }, [startDate, expenses, endDate, dispatch]);
+  //   localStorage.setItem('sortBy', JSON.stringify(state.sortBy));
+  //   localStorage.setItem(
+  //     'currentExpense',
+  //     JSON.stringify(state.currentExpense)
+  //   );
+  // }, [state.sortBy, state.currentExpense]);
 
   const handSortByOnChange = e => {
     setSortBy(e.target.value);

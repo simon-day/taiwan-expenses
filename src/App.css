@@ -140,6 +140,9 @@ input.expense-input {
   color: white !important;
   font-family: 'Titillium Web', sans-serif !important;
 }
+.react-datepicker__input-container > input {
+  color: white !important;
+}
 
 .total-table-container {
   padding: 0 30px;

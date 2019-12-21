@@ -59,6 +59,24 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
   const editExpense = e => {
     if (description.trim().length > 0) {
       e.preventDefault();
+
+      let expensesRef = db.collection('expenses');
+      let query = expensesRef
+        .where('id', '==', currentExpense.id)
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            console.log(doc.id, '=>', doc.data());
+            let updateDoc = db
+              .collection('expenses')
+              .doc(doc.id)
+              .update({ description, amount });
+          });
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+
       setAmount('');
       setDescription('');
       setFocus(false);

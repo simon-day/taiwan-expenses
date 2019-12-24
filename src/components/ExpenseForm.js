@@ -61,14 +61,12 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       e.preventDefault();
 
       let expensesRef = db.collection('expenses');
-      let query = expensesRef
+      expensesRef
         .where('id', '==', currentExpense.id)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-            console.log(doc.id, '=>', doc.data());
-            let updateDoc = db
-              .collection('expenses')
+            db.collection('expenses')
               .doc(doc.id)
               .update({ description, amount });
           });
@@ -81,7 +79,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
       setDescription('');
       setFocus(false);
     }
-    e.preventDefault();
+    e.persist();
   };
 
   const handleKeyDown = event => {
@@ -101,17 +99,18 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
         userId: state.userId,
         description,
         amount: Number(amount),
-        createdAt: moment().format('YYYY-MM-DD HH:mm:ssZ')
+        createdAt: Date.now()
       };
 
       await db.collection('expenses').add(expense);
 
       setAmount('');
       setDescription('');
+    } else {
+      e.preventDefault();
     }
-    setSortBy('NEWEST');
-    setFocus(false);
-    e.preventDefault();
+    // setSortBy('NEWEST');
+    // setFocus(false);
   };
   return (
     <>

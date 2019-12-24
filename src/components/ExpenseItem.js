@@ -12,14 +12,13 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
 
   const deleteExpense = () => {
     let expensesRef = db.collection('expenses');
-    let query = expensesRef
+    expensesRef
       .where('id', '==', id)
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           console.log(doc.id, '=>', doc.data());
-          let deleteDoc = db
-            .collection('expenses')
+          db.collection('expenses')
             .doc(doc.id)
             .delete();
         });

@@ -5,7 +5,6 @@ import { TextInput, Button } from 'react-materialize';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { useEffect } from 'react';
 
-const db = firebase.firestore();
 const auth = firebase.auth();
 
 const LoginPage = () => {
@@ -27,7 +26,7 @@ const LoginPage = () => {
   const handleSignUpSubmit = async e => {
     e.preventDefault();
     // Send to Firebase
-    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    await auth.createUserWithEmailAndPassword(email, password);
 
     //Clear form and close modal
 

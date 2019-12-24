@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ExpensesContext } from '../context/ExpenseContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import ExpenseItem from './ExpenseItem';
 import ExpenseForm from './ExpenseForm';
 import { Table } from 'react-materialize';
@@ -9,12 +9,12 @@ import moment from 'moment';
 import DateRangePickers from './DateRangePickers';
 import DateRangeSelect from './DateRangeSelect';
 import SortBySelect from './SortBySelect';
+import LoadingBar from '../LoadingBar';
 
 const ExpenseDashboard = () => {
-  const { state } = useContext(ExpensesContext);
-  console.log('STATE: ', state);
+  const { state, setState } = useContext(ExpensesContext);
+  const { filteredExpenses } = state;
   const { expenses } = state;
-
   const [showDatePicker, toggleShowDatePicker] = useState(false);
   const [focus, setFocus] = useState(false);
 
@@ -31,8 +31,17 @@ const ExpenseDashboard = () => {
       .toDate()
   );
 
+  useEffect(() => {
+    const filteredList = state.expenses.filter(
+      expense =>
+        expense.createdAt > state.filteredStartDate &&
+        expense.createdAt < state.filteredEndDate
+    );
+    setState({ ...state, filteredExpenses: filteredList });
+  }, [state.expenses, state.filteredStartDate, state.filteredEndDate]);
+
   const renderExpenseList = () => {
-    return state.expenses.map(expense => (
+    return filteredExpenses.map(expense => (
       <ExpenseItem
         setFocus={setFocus}
         key={expense.id}
@@ -44,104 +53,108 @@ const ExpenseDashboard = () => {
   };
 
   const renderTotalSpend = () => {
-    return state.expenses.reduce((total, exp) => total + Number(exp.amount), 0);
+    return state.filteredExpenses.reduce(
+      (total, exp) => total + Number(exp.amount),
+      0
+    );
   };
 
   const calculateAverageDailySpend = () => {
-    const noOfDays = moment(endDate).diff(moment(startDate), 'days') + 1;
+    const noOfDays =
+      moment(state.filteredEndDate).diff(
+        moment(state.filteredStartDate),
+        'days'
+      ) + 1;
     return Math.ceil(renderTotalSpend() / noOfDays);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem('sortBy', JSON.stringify(state.sortBy));
-  //   localStorage.setItem(
-  //     'currentExpense',
-  //     JSON.stringify(state.currentExpense)
-  //   );
-  // }, [state.sortBy, state.currentExpense]);
 
   const handSortByOnChange = e => {
     setSortBy(e.target.value);
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: `SORT_BY_${sortBy}` });
-  // }, [sortBy, dispatch]);
+  console.log('state: ', state);
 
-  return (
-    <>
-      <div className="container">
-        <div className="center-align">
-          <div className="expense-form">
-            <ExpenseForm
-              focus={focus}
-              setFocus={setFocus}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-              handSortByOnChange={handSortByOnChange}
-              setSortBy={setSortBy}
-            />
-          </div>
-          <div className="sort-by-container">
-            <div className="row">
-              <SortBySelect setSortBy={setSortBy} sortBy={sortBy} />
-              <div className="col s6 ">
-                <div className="row date-pickers">
-                  <DateRangeSelect
-                    toggleShowDatePicker={toggleShowDatePicker}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
-                    sortBy={sortBy}
-                  />
-                  {showDatePicker && (
-                    <DateRangePickers
+  if (!state.userId) {
+    console.log('huhhhh');
+    return <LoadingBar />;
+  } else {
+    return (
+      <>
+        <div className="container">
+          <div className="center-align">
+            <div className="expense-form">
+              <ExpenseForm
+                focus={focus}
+                setFocus={setFocus}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                handSortByOnChange={handSortByOnChange}
+                setSortBy={setSortBy}
+              />
+            </div>
+            <div className="sort-by-container">
+              <div className="row">
+                <SortBySelect setSortBy={setSortBy} sortBy={sortBy} />
+                <div className="col s6 ">
+                  <div className="row date-pickers">
+                    <DateRangeSelect
+                      toggleShowDatePicker={toggleShowDatePicker}
                       startDate={startDate}
                       setStartDate={setStartDate}
                       endDate={endDate}
                       setEndDate={setEndDate}
+                      sortBy={sortBy}
                     />
-                  )}
+                    {showDatePicker && (
+                      <DateRangePickers
+                        state={state}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="row total-average">
-                <div className="col s6"></div>
-                <div className="col s6">
-                  Total:{' '}
-                  <span className="bold-text">
-                    $
-                    {state.expenses.length > 0 &&
-                      renderTotalSpend().toLocaleString()}
-                  </span>{' '}
-                  / Daily Average:{' '}
-                  <span className="bold-text">
-                    $
-                    {!expenses.length > 0
-                      ? '0'
-                      : calculateAverageDailySpend().toLocaleString()}
-                  </span>
+                <div className="row total-average">
+                  <div className="col s6"></div>
+                  <div className="col s6">
+                    Total:{' '}
+                    <span className="bold-text">
+                      $
+                      {state.filteredExpenses.length > 0 &&
+                        renderTotalSpend().toLocaleString()}
+                    </span>{' '}
+                    / Daily Average:{' '}
+                    <span className="bold-text">
+                      $
+                      {!expenses.length > 0
+                        ? '0'
+                        : calculateAverageDailySpend().toLocaleString()}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="table-container">
-            <Table className="centered expenses-table highlight ">
-              <thead>
-                <tr>
-                  <th data-field="expense">Expense</th>
-                  <th data-field="amount">Amount</th>
-                  <th data-field="createdAt">Time Added</th>
-                  <th data-field="price"></th>
-                </tr>
-              </thead>
-              <tbody>{renderExpenseList()}</tbody>
-            </Table>
+
+            <div className="table-container">
+              <Table className="centered expenses-table highlight ">
+                <thead>
+                  <tr>
+                    <th data-field="expense">Expense</th>
+                    <th data-field="amount">Amount</th>
+                    <th data-field="createdAt">Time Added</th>
+                    <th data-field="price"></th>
+                  </tr>
+                </thead>
+                <tbody>{state.filteredExpenses && renderExpenseList()}</tbody>
+              </Table>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 };
 
 export default ExpenseDashboard;

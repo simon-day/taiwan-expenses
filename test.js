@@ -1,31 +1,10 @@
-// var longest_Palindrome=function(s){
-//   if (!s) return 0;
-//   for (let c = s.length; c > 0; c--) {
-//     for (let i = 0; i <= s.length - c; i++) {
-//       var check = s.substr(i, c);
-//       if (check === check.split("").reverse().join("")) return c;
-//     }
-//   }
-// }
-
-longestPalindrome = function(s) {
-  //your code here
-  if (!s) return 0;
-
-  for (let c = s.length; c > 0; c--) {
-    for (let j = 0; j <= s.length - c; j++) {
-      let check = s.substr(j, c);
-      if (
-        check ===
-        check
-          .split('')
-          .reverse()
-          .join('')
-      ) {
-        return c;
-      }
+function tripledouble(num1, num2) {
+  for (let i = 0; i < 10; i++) {
+    if (new RegExp(`${i}{3}`).test(num1) && new RegExp(`${i}{2}`).test(num2)) {
+      return 1;
     }
   }
-};
+  return 0;
+}
 
-console.log(longestPalindrome('aab')); // 6
+console.log(tripledouble(444831619555999222, 21321446299));

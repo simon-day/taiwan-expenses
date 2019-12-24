@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { useEffect } from 'react';
 import firebase from '../Firestore';
+import moment from 'moment';
 
 const SORT_OPTIONS = {
   NEWEST: { column: 'createdAt', direction: 'desc' },
@@ -12,20 +13,16 @@ const SORT_OPTIONS = {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const useExpenses = (userId, sortBy = 'NEWEST') => {
+const useExpenses = (userId, sortBy = 'NEWEST', startDate, endDate) => {
   const [fetchedExpenses, setFetchedExpenses] = useState([]);
 
-  console.log('userId in useExpenses: ', userId);
-
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
+    const unsubscribe = db
       .collection('expenses')
       .where('userId', '==', userId)
       .orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)
-      .onSnapshot(snapshot => {
+      .onSnapshot(async snapshot => {
         const newExpenses = snapshot.docs.map(doc => ({ ...doc.data() }));
-
         setFetchedExpenses(newExpenses);
       });
     return () => unsubscribe();
@@ -37,82 +34,44 @@ const useExpenses = (userId, sortBy = 'NEWEST') => {
 export const ExpensesContext = createContext();
 
 export const ExpenseProvider = props => {
-  // const [state, dispatch] = useReducer(
-  //   ExpenseReducer,
-  //   JSON.parse(localStorage.getItem('state')) || initialState
-  // );]
-
   const initialState = {
     expenses: [],
     filteredExpenses: [],
     currentExpense: '',
     sortBy: 'NEWEST',
     loggedIn: false,
-    userId: ''
+    userId: '',
+    filteredStartDate: moment()
+      .subtract(6, 'days')
+      .toDate(),
+    filteredEndDate: moment()
+      .endOf('day')
+      .toDate()
   };
 
-  // const [userId, setUserId] = useState('');
-
   const [state, setState] = useState(initialState);
-
-  // auth.onAuthStateChanged(user => {
-  //   if (user) {
-  //     setState({ ...state, userId: user.uid });
-  //     // dispatch({ type: 'LOG_IN' });
-  //     console.log(user.uid);
-  //   } else {
-  //     setState({ ...state, userId: '' });
-  //     // dispatch({ type: 'LOG_OUT' });
-  //   }
-  // });
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
-        setState({ ...state, userId: user.uid });
-        // dispatch({ type: 'LOG_IN' });
-        console.log(user.uid);
+        setState(s => ({ ...s, userId: user.uid }));
       } else {
-        setState({ ...state, userId: '' });
-        // dispatch({ type: 'LOG_OUT' });
+        setState(s => ({ ...s, userId: '' }));
       }
     });
   }, [state.userId]);
 
-  const expenses = useExpenses(state.userId, state.sortBy);
-  console.log('expneses: ', expenses);
+  const expenses = useExpenses(
+    state.userId,
+    state.sortBy,
+    state.filterStartDate,
+    state.filterEndDate,
+    state.expenses
+  );
 
   useEffect(() => {
-    setState({ ...state, expenses });
+    setState(s => ({ ...s, expenses }));
   }, [expenses]);
-
-  console.log('initialState: ', initialState);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [userId]);
-
-  // const fetchData = async () => {
-  //   const expenses = await db
-  //     .collection('expenses')
-  //     .where('userId', '==', userId)
-  //     .get();
-  //   const expensesArr = await expenses.docs
-  //     .filter(doc => doc.data().userId === userId)
-  //     .map(doc => ({
-  //       description: doc.data().description,
-  //       amount: doc.data().amount,
-  //       createdAt: moment(doc.data().createdAt),
-  //       id: doc.id
-  //     }));
-  //   dispatch({ type: 'FETCH_EXPENSES', expenses: expensesArr });
-  //   console.log(expensesArr);
-  //   // .then(snapshot => snapshot.docs.map(doc => console.log(doc.data())));
-  // };
-
-  // useEffect(() => {
-  //   initialState.filteredExpenses = [...initialState.expenses];
-  // }, []);
 
   return (
     <ExpensesContext.Provider value={{ state, setState }}>

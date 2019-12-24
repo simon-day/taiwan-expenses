@@ -9,7 +9,7 @@ const DateRangeSelect = ({
   setEndDate,
   toggleShowDatePicker
 }) => {
-  const { state } = useContext(ExpensesContext);
+  const { state, setState } = useContext(ExpensesContext);
 
   const { expenses } = state;
 
@@ -20,61 +20,64 @@ const DateRangeSelect = ({
   const handleChange = e => {
     switch (e.target.value) {
       case 'LAST_WEEK':
-        setStartDate(
-          moment()
-            .subtract(7, 'days')
+        setState({
+          ...state,
+          filteredStartDate: moment()
+            .subtract(6, 'days')
+            .toDate(),
+          filteredEndDate: moment()
+            .endOf('day')
             .toDate()
-        );
-        setEndDate(moment().endOf('day'));
+        });
         toggleShowDatePicker(false);
         return;
       case 'THIS_MONTH':
-        setStartDate(
-          moment()
+        setState({
+          ...state,
+          filteredStartDate: moment()
             .startOf('month')
+            .toDate(),
+          filteredEndDate: moment()
+            .endOf('day')
             .toDate()
-        );
-        setEndDate(moment().endOf('day'));
+        });
         toggleShowDatePicker(false);
         return;
       case 'LAST_MONTH':
-        setStartDate(
-          moment()
+        setState({
+          ...state,
+          filteredStartDate: moment()
             .subtract(1, 'months')
             .startOf('month')
-        );
-        setEndDate(
-          moment()
+            .toDate(),
+          filteredEndDate: moment()
             .subtract(1, 'months')
             .endOf('month')
-        );
+            .toDate()
+        });
         toggleShowDatePicker(false);
         return;
       case 'ALL_TIME':
-        setStartDate(moment(oldestExpense.createdAt) - 1);
-        setEndDate(moment().endOf('day'));
+        setState({
+          ...state,
+          filteredStartDate: moment(oldestExpense.createdAt).toDate(),
+          filteredEndDate: moment()
+            .endOf('day')
+            .toDate()
+        });
         toggleShowDatePicker(false);
         return;
       case 'SPECIFIC_DATES':
-        setStartDate(
-          moment(startDate)
-            .startOf('day')
-            .toDate()
-        );
-        setEndDate(
-          moment(endDate)
-            .endOf('day')
-            .toDate()
-        );
         toggleShowDatePicker(true);
         return;
       default:
-        setStartDate(moment().toDate());
-        setEndDate(
-          moment()
+        setState({
+          ...state,
+          filteredStartDate: moment().toDate(),
+          filteredEndDate: moment()
             .endOf('day')
             .toDate()
-        );
+        });
     }
   };
 

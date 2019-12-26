@@ -51,8 +51,6 @@ export const ExpenseProvider = props => {
 
   const [state, setState] = useState(initialState);
 
-  console.log('state: ', state);
-
   const expenses = useExpenses(
     state.userId,
     state.sortBy,

@@ -17,6 +17,8 @@ const DateRangeSelect = ({
     (a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()
   )[0];
 
+  console.log('oldest expense: ', oldestExpense);
+
   const handleChange = e => {
     switch (e.target.value) {
       case 'LAST_WEEK':
@@ -60,7 +62,9 @@ const DateRangeSelect = ({
       case 'ALL_TIME':
         setState({
           ...state,
-          filteredStartDate: moment(oldestExpense.createdAt).toDate(),
+          filteredStartDate: moment(oldestExpense.createdAt)
+            .startOf('day')
+            .toDate(),
           filteredEndDate: moment()
             .endOf('day')
             .toDate()

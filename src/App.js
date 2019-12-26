@@ -19,8 +19,10 @@ const auth = firebase.auth();
 
 function App() {
   const { state, setState } = useContext(ExpensesContext);
+  const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
+    setDidMount(true);
     auth.onAuthStateChanged(user => {
       if (user) {
         setState(s => ({ ...s, userId: user.uid }));
@@ -28,9 +30,8 @@ function App() {
         setState(s => ({ ...s, userId: '' }));
       }
     });
+    return () => setDidMount(false);
   }, [state.userId]);
-
-  console.log('TEST: ', state.userId);
 
   return (
     <>
@@ -38,10 +39,8 @@ function App() {
         <NavBar />
         <Switch>
           <PrivateRoute path="/expenses" component={ExpenseDasboard} />
-
           <Route exact path="/expenses" component={ExpenseDasboard} />
-
-          {state.userId ? <Redirect to="/expenses" /> : <LoginPage />}
+          {state.userId && <Redirect to="/expenses" />}
           <Route exact path="/" component={LoginPage} />
         </Switch>
       </Router>

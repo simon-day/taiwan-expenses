@@ -3,7 +3,7 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ExpensesContext } from './context/ExpenseContext';
 import { Redirect, Route } from 'react-router-dom';
 import { useContext } from 'react';

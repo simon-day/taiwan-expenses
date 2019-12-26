@@ -17,7 +17,6 @@ const ExpenseItem = ({ description, amount, createdAt, id, setFocus }) => {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          console.log(doc.id, '=>', doc.data());
           db.collection('expenses')
             .doc(doc.id)
             .delete();

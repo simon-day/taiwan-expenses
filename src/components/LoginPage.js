@@ -9,10 +9,14 @@ const auth = firebase.auth();
 
 const LoginPage = () => {
   let history = useHistory();
+  const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
+    setDidMount(true);
     var elems = document.querySelectorAll('.modal');
     M.Modal.init(elems);
+
+    return () => setDidMount(false);
   }, []);
 
   const closeModal = modalId => {
@@ -27,7 +31,6 @@ const LoginPage = () => {
   const handleSignUpSubmit = async e => {
     e.preventDefault();
     // Send to Firebase
-
     try {
       await auth.createUserWithEmailAndPassword(email, password);
       setEmail('');
@@ -37,10 +40,6 @@ const LoginPage = () => {
     } catch (error) {
       setError(error.message);
     }
-
-    //Clear form and close modal
-
-    // closeModal('#sign-up-modal');
   };
 
   const handleLogInSubmit = async e => {

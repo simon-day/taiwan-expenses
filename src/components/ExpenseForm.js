@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { ExpensesContext } from '../context/ExpenseContext';
 import { Button } from 'react-materialize';
 import { useEffect } from 'react';
-import moment from 'moment';
 import uuid from 'uuid';
 import firebase from '../Firestore';
 

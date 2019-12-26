@@ -37,7 +37,7 @@ const ExpenseDashboard = () => {
         expense.createdAt > state.filteredStartDate &&
         expense.createdAt < state.filteredEndDate
     );
-    setState({ ...state, filteredExpenses: filteredList });
+    setState(s => ({ ...s, filteredExpenses: filteredList }));
   }, [state.expenses, state.filteredStartDate, state.filteredEndDate]);
 
   const renderExpenseList = () => {
@@ -72,10 +72,7 @@ const ExpenseDashboard = () => {
     setSortBy(e.target.value);
   };
 
-  console.log('state: ', state);
-
   if (!state.userId) {
-    console.log('huhhhh');
     return <LoadingBar />;
   } else {
     return (

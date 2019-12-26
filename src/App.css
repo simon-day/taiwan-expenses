@@ -217,8 +217,9 @@ input.expense-input {
   font-weight: bold;
 }
 
-.loading-container {
-  width: 100vh;
-  height: 100vh;
-  background-color: white;
+@media (max-width: 1000px) {
+  .brand-logo {
+    font-size: 1.5rem !important;
+    margin: 0 auto;
+  }
 }

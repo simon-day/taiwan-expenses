@@ -1,21 +1,47 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import { ExpensesContext } from './context/ExpenseContext';
 import './App.css';
 import 'materialize-css/dist/css/materialize.min.css';
 import ExpenseDasboard from './components/ExpenseDashboard';
 import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
+import PrivateRoute from './PrivateRoute';
+import { useEffect } from 'react';
+import firebase from './Firestore';
+
+const auth = firebase.auth();
 
 function App() {
-  // const { state } = useContext(ExpensesContext);
+  const { state, setState } = useContext(ExpensesContext);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setState(s => ({ ...s, userId: user.uid }));
+      } else {
+        setState(s => ({ ...s, userId: '' }));
+      }
+    });
+  }, [state.userId]);
+
+  console.log('TEST: ', state.userId);
 
   return (
     <>
       <Router>
         <NavBar />
         <Switch>
+          <PrivateRoute path="/expenses" component={ExpenseDasboard} />
+
           <Route exact path="/expenses" component={ExpenseDasboard} />
+
+          {state.userId ? <Redirect to="/expenses" /> : <LoginPage />}
           <Route exact path="/" component={LoginPage} />
         </Switch>
       </Router>

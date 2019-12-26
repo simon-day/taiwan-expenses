@@ -22,28 +22,40 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSignUpSubmit = async e => {
     e.preventDefault();
     // Send to Firebase
-    await auth.createUserWithEmailAndPassword(email, password);
+
+    try {
+      await auth.createUserWithEmailAndPassword(email, password);
+      setEmail('');
+      setPassword('');
+      setError('');
+      history.push('/expenses');
+    } catch (error) {
+      setError(error.message);
+    }
 
     //Clear form and close modal
 
-    closeModal('#sign-up-modal');
-    setEmail('');
-    setPassword('');
-    history.push('/expenses');
+    // closeModal('#sign-up-modal');
   };
 
   const handleLogInSubmit = async e => {
     e.preventDefault();
-    const cred = await auth.signInWithEmailAndPassword(email, password);
-    console.log(cred);
-    closeModal('#log-in-modal');
-    setEmail('');
-    setPassword('');
-    history.push('/expenses');
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      setEmail('');
+      setPassword('');
+      setError('');
+      history.push('/expenses');
+    } catch (error) {
+      setError('Problem logging in, please try again');
+    }
+    // closeModal('#log-in-modal');
   };
 
   return (
@@ -53,21 +65,22 @@ const LoginPage = () => {
         Login or create an account to manage and track all your outgoing
         expenses
       </p>
+
       <a
-        class="waves-effect waves-light btn modal-trigger"
+        className="waves-effect waves-light btn modal-trigger"
         href="#log-in-modal"
       >
         Login
       </a>
       <a
-        class="waves-effect waves-light btn btn-sign-up modal-trigger"
+        className="waves-effect waves-light btn btn-sign-up modal-trigger"
         href="#sign-up-modal"
       >
         Sign Up
       </a>
 
       <div id="sign-up-modal" className="modal">
-        <div class="modal-content">
+        <div className="modal-content">
           <h4>Create Account</h4>
           <form onSubmit={handleSignUpSubmit}>
             <TextInput
@@ -86,13 +99,14 @@ const LoginPage = () => {
               name="password"
               placeholder="Password"
             />
+            {error && <p className="error-message">{error}</p>}
             <Button type="submit">Sign Up</Button>
           </form>
         </div>
       </div>
 
       <div id="log-in-modal" className="modal">
-        <div class="modal-content">
+        <div className="modal-content">
           <h4>Log In</h4>
           <form onSubmit={handleLogInSubmit}>
             <TextInput
@@ -111,6 +125,7 @@ const LoginPage = () => {
               name="password"
               placeholder="Password"
             />
+            {error && <p className="error-message">{error}</p>}
             <Button type="submit">Log In</Button>
           </form>
         </div>

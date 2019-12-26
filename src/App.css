@@ -5,7 +5,7 @@
 }
 
 .landing-page-container {
-  width: 60%;
+  width: 50%;
   background-color: white;
   color: black !important;
   padding: 10px 30px;
@@ -210,4 +210,15 @@ input.expense-input {
     top: 24px;
     height: 32px;
   }
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.loading-container {
+  width: 100vh;
+  height: 100vh;
+  background-color: white;
 }

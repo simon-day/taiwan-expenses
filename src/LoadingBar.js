@@ -1,10 +1,12 @@
 import React from 'react';
 
 const LoadingBar = () => (
-  <div class="lds-facebook">
-    <div></div>
-    <div></div>
-    <div></div>
+  <div className="loading-container">
+    <div className="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 );
 

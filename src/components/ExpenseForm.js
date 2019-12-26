@@ -67,7 +67,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
           snapshot.forEach(doc => {
             db.collection('expenses')
               .doc(doc.id)
-              .update({ description, amount });
+              .update({ description, amount: Number(amount) });
           });
         })
         .catch(err => {

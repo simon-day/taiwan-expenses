@@ -51,15 +51,7 @@ export const ExpenseProvider = props => {
 
   const [state, setState] = useState(initialState);
 
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        setState(s => ({ ...s, userId: user.uid }));
-      } else {
-        setState(s => ({ ...s, userId: '' }));
-      }
-    });
-  }, [state.userId]);
+  console.log('state: ', state);
 
   const expenses = useExpenses(
     state.userId,

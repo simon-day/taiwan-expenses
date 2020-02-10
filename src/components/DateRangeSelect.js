@@ -2,13 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { ExpensesContext } from '../context/ExpenseContext';
 
-const DateRangeSelect = ({
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  toggleShowDatePicker
-}) => {
+const DateRangeSelect = ({ toggleShowDatePicker }) => {
   const { state, setState } = useContext(ExpensesContext);
 
   const { expenses } = state;
@@ -16,8 +10,6 @@ const DateRangeSelect = ({
   const oldestExpense = [...expenses].sort(
     (a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()
   )[0];
-
-  console.log('oldest expense: ', oldestExpense);
 
   const handleChange = e => {
     switch (e.target.value) {

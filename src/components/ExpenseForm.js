@@ -33,7 +33,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
     focusTextInput();
   }, [descriptionInput, amountInput, focus]);
 
-  const { state } = useContext(ExpensesContext);
+  const { state, setState } = useContext(ExpensesContext);
   const { currentExpense } = state;
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
@@ -73,7 +73,7 @@ const ExpenseForm = ({ setSortBy, focus, setFocus }) => {
         .catch(err => {
           console.log('Error getting documents', err);
         });
-
+      setState({ ...state, currentExpense: '' });
       setAmount('');
       setDescription('');
       setFocus(false);

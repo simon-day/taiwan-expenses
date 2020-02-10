@@ -5,12 +5,18 @@
 }
 
 .landing-page-container {
-  width: 50%;
+  width: 40%;
   background-color: white;
   color: black !important;
   padding: 10px 30px;
   text-align: center;
   margin: 3rem auto;
+}
+
+@media (max-width: 500px) {
+  .landing-page-container {
+    width: 80%;
+  }
 }
 
 .landing-page-text {
@@ -27,7 +33,7 @@ table {
 
 .container {
   text-align: center;
-  margin: 40px;
+  margin: 40px auto;
 }
 
 .dropdown-menu {
@@ -63,14 +69,16 @@ table {
   text-align: left;
 }
 
+.sign-out-button {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
 .table-container {
   width: 100%;
   margin: 0 auto;
   font-family: 'Titillium Web', sans-serif;
-  /* font-family: 'Indie Flower', cursive; */
   font-size: 1.5rem;
-  /* font-family: 'Shadows Into Light', cursive; */
-  /* font-family: 'Poppins', sans-serif; */
 }
 
 .sticky2 {

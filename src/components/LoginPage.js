@@ -19,11 +19,6 @@ const LoginPage = () => {
     return () => setDidMount(false);
   }, []);
 
-  const closeModal = modalId => {
-    const modal = document.querySelector(modalId);
-    M.Modal.getInstance(modal).close();
-  };
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -54,7 +49,6 @@ const LoginPage = () => {
     } catch (error) {
       setError('Problem logging in, please try again');
     }
-    // closeModal('#log-in-modal');
   };
 
   return (

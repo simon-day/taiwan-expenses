@@ -10,7 +10,6 @@ const SORT_OPTIONS = {
   AMOUNT_DESC: { column: 'amount', direction: 'desc' }
 };
 
-const auth = firebase.auth();
 const db = firebase.firestore();
 
 const useExpenses = (userId, sortBy = 'NEWEST', startDate, endDate) => {

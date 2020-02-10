@@ -28,7 +28,7 @@ const NavBar = props => {
         <span className="brand-logo center">TAIWAN Expenses</span>
         <ul id="nav-mobile" className="right">
           {state.userId && (
-            <Link onClick={logOut} to="/">
+            <Link className="sign-out-button" onClick={logOut} to="/">
               Sign Out
             </Link>
           )}

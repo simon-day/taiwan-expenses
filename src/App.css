@@ -1,3 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+#nav-mobile {
+  margin-right: 1.5rem;
+}
+
 .brand-logo {
   font-family: 'Bebas Neue', cursive;
   font-size: 2rem;
@@ -70,8 +78,10 @@ table {
 }
 
 .sign-out-button {
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  display: inline-block;
   font-weight: bold;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
 .table-container {
